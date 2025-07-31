@@ -1,0 +1,26 @@
+###Obtener todos los tipos de servicios
+GET http://localhost:3000/api/tiposServicios
+
+###Obtener un tipo de servicio específico
+GET http://localhost:3000/api/tiposServicios/03026d17-96db-4cab-afa9-30a63c39728a
+
+###Crear un nuevo tipo de servicio
+POST http://localhost:3000/api/tiposServicios
+Content-Type: application/json
+
+{
+  "nombre": "Plomería",
+  "descripcion": "Servicio de plomería general"
+}
+
+###Modificar un tipo de servicio existente (PUT)
+PUT http://localhost:3000/api/tiposServicios/d59be122-d26b-4ea6-8e37-a8495f93ce74
+Content-Type: application/json
+
+{
+  "nombre": "Plomería Avanzada",
+  "descripcion": "Servicio de plomería avanzado"
+}
+
+###Eliminar un tipo de servicio
+DELETE http://localhost:3000/api/tiposServicios/d59be122-d26b-4ea6-8e37-a8495f93ce74
