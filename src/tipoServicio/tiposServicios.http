@@ -2,7 +2,8 @@
 GET http://localhost:3000/api/tiposServicios
 
 ###Obtener un tipo de servicio específico
-GET http://localhost:3000/api/tiposServicios/03026d17-96db-4cab-afa9-30a63c39728a
+GET http://localhost:3000/api/tiposServicios/7f726685-65e7-4118-832a-1f4701b1ef5c
+
 
 ###Crear un nuevo tipo de servicio
 POST http://localhost:3000/api/tiposServicios
@@ -14,7 +15,7 @@ Content-Type: application/json
 }
 
 ###Modificar un tipo de servicio existente (PUT)
-PUT http://localhost:3000/api/tiposServicios/d59be122-d26b-4ea6-8e37-a8495f93ce74
+PUT http://localhost:3000/api/tiposServicios/7f726685-65e7-4118-832a-1f4701b1ef5c
 Content-Type: application/json
 
 {
@@ -23,4 +24,4 @@ Content-Type: application/json
 }
 
 ###Eliminar un tipo de servicio
-DELETE http://localhost:3000/api/tiposServicios/d59be122-d26b-4ea6-8e37-a8495f93ce74
+DELETE http://localhost:3000/api/tiposServicios/62dc1925-a76b-4a87-952e-ea9ae5457961
