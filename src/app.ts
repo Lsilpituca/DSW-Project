@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import { Provincia } from "./provincia.js";
+import { Provincia } from "./provincia/provincia.js";
 import {tipoServicioRouter} from "./tipoServicio/tipoServicio.routes.js";
 
 const app = express();
