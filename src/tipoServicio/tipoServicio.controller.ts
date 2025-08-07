@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { TipoServicioRepository } from './tipoServicio.repository.js';
-import { TipoServicio } from './tipoServicio.entity.js';
+import { Request, Response, NextFunction } from "express";
+import { TipoServicioRepository } from "./tipoServicio.repository.js";
+import { TipoServicio } from "./tipoServicio.entity.js";
 
 const repository = new TipoServicioRepository();
 
