@@ -1,4 +1,4 @@
-import { Request, Repost, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { ProvinciaRepository } from "./provincia.repository.js";
 import { Provincia } from "./provincia.entity.js";
 
