@@ -1,5 +1,6 @@
 import { Repository } from "../shared/repository.js";
 import { Provincia } from "./provincia.entity.js";
+import { pool } from "../shared/db/conn.mysql.js";
 
 const provincias = [
   new Provincia(undefined, 'Buenos Aires'),

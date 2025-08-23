@@ -1,5 +1,6 @@
 import { Repository } from "../shared/repository.js";
 import { TipoServicio } from "./tipoServicio.entity.js";
+import { pool } from "../shared/db/conn.mysql.js";
 
 const tiposServicios = [
   new TipoServicio(undefined, 'Limpieza', 'Servicio de limpieza general'),
