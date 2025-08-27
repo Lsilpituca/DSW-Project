@@ -10,9 +10,9 @@ app.use("/api/tiposServicios", tipoServicioRouter);
 
 //CRUD provincia
 const provincias = [
-  new Provincia(undefined, "Buenos Aires"),
-  new Provincia(undefined, "Santa Fe"),
-  new Provincia(undefined, "Cordoba"),
+  new Provincia("Buenos Aires", [], /* id? */),
+  new Provincia("Santa Fe", [], /* id? */),
+  new Provincia("Cordoba", [], /* id? */),
 ];
 
 app.get("/api/provincias", (req, res) => {
@@ -28,7 +28,7 @@ app.get("/api/provincias/:id", (req, res) => {
 });
 
 app.post("/api/provincias", (req, res) => {
-  const nuevaProvincia = new Provincia(undefined, req.body.nombre);
+  const nuevaProvincia = new Provincia(req.body.nombre, []);
   provincias.push(nuevaProvincia);
   res.status(201).send({ message: "Provincia creada", data: nuevaProvincia });
 });

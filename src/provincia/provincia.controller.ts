@@ -37,7 +37,7 @@ function findOne(req: Request, res: Response) {
 
 function add(req: Request, res: Response) {
   const input = req.body.sanitizedInput;
-  const provinciaInput = new Provincia(undefined, input.nombre);
+  const provinciaInput = new Provincia(input.nombre, input.cuidades ?? [], input.id);
   const nuevaProvincia = repository.add(provinciaInput);
   return res
     .status(201)
@@ -46,7 +46,7 @@ function add(req: Request, res: Response) {
 
 function update(req: Request, res: Response) {
   req.body.sanitizedInput.id = req.params.id;
-  const provincia = repository.update(req.body.sanitizedInput);
+  const provincia = repository.update(req.params.id, req.body.sanitizedInput);
 
   if (!provincia) {
     res.status(404).send({ message: "Provincia no encontrada" });
@@ -59,7 +59,7 @@ function update(req: Request, res: Response) {
 
 function remove(req: Request, res: Response) {
   const id = req.params.id;
-  const provincia = repository.remove({ id });
+  const provincia = repository.delete({ id });
 
   if (!provincia) {
     res.status(404).send({ message: "Provincia no encontrada" });

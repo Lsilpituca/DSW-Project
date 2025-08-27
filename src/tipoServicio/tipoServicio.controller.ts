@@ -51,7 +51,7 @@ function add(req:Request, res:Response) {
 
 function update(req:Request, res:Response) {
   req.body.sanitizedInput.id = req.params.id;
-  const tipoServicio = repository.update(req.body.sanitizedInput);
+  const tipoServicio = repository.update(req.params.id, req.body.sanitizedInput);
 
   if (!tipoServicio) {
     res.status(404).send({ message: "Tipo de servicio no encontrado" });
