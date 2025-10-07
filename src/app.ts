@@ -1,9 +1,17 @@
+import "reflect-metadata";
 import express, { NextFunction, Request, Response } from "express";
 import { Provincia } from "./provincia/provincia.entity.js";
 import {tipoServicioRouter} from "./tipoServicio/tipoServicio.routes.js";
+import { orm, syncSchema } from "./shared/db/orm.js";
+import { RequestContext } from "@mikro-orm/core";
 
 const app = express();
 app.use(express.json());
+
+//Luego de los middlewares base
+app.use((req, res, next) => {
+  RequestContext.create(orm.em, next);
+});
 
 //CRUD tipo de servicio
 app.use("/api/tiposServicios", tipoServicioRouter);
@@ -61,6 +69,8 @@ app.delete("/api/provincias/:id", (req, res) => {
 app.use((_, res) => {
   res.status(404).send({ message: "Recurso no encontrado" });
 });
+
+await syncSchema()
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
