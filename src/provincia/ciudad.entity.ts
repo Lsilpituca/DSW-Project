@@ -1,8 +1,7 @@
 import { 
   Entity, 
   Cascade,  
-  OneToMany, 
-  PrimaryKey, 
+  ManyToOne,  
   Property, 
   Collection, 
 } from '@mikro-orm/core';
@@ -10,14 +9,12 @@ import { Provincia } from './provincia.entity.js';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 
 @Entity()
-export class ProvinciaClass extends BaseEntity{
+export class Ciudad extends BaseEntity{
   
   @Property({ nullable: false, unique: true })
-  nombre!: string
+  nombre!: string;
 
-  @OneToMany(() => Ciudad, (ciudad) => ciudad.provinciaClass, { 
-    cascade: [Cascade.ALL] 
-  })
-  
-  ciudades = new Collection<Ciudad>(this);
+  @ManyToOne(() => Provincia, { nullable: false } )
+  provincia = Provincia
+
 }
