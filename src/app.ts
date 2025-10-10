@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import express, { NextFunction, Request, Response } from "express";
-import { Provincia } from "./provincia/provincia.entity.js";
-import {tipoServicioRouter} from "./tipoServicio/tipoServicio.routes.js";
-import { orm, syncSchema } from "./shared/db/orm.js";
+import express from "express";
+import { provinciaRouter } from "./provincia/provincia.routes.js";
+import { tipoServicioRouter } from "./tipoServicio/tipoServicio.routes.js";
 import { RequestContext } from "@mikro-orm/core";
+import { orm, syncSchema } from "./shared/db/orm.js";
 
 const app = express();
 app.use(express.json());
@@ -17,57 +17,10 @@ app.use((req, res, next) => {
 app.use("/api/tiposServicios", tipoServicioRouter);
 
 //CRUD provincia
-const provincias = [
-  new Provincia("Buenos Aires", [], /* id? */),
-  new Provincia("Santa Fe", [], /* id? */),
-  new Provincia("Cordoba", [], /* id? */),
-];
-
-app.get("/api/provincias", (req, res) => {
-  res.json(provincias);
-});
-
-app.get("/api/provincias/:id", (req, res) => {
-  const provincia = provincias.find((p) => p.id === req.params.id);
-  if (!provincia) {
-    res.status(404).send({ message: "Provincia no encontrada" });
-  }
-  res.json(provincia);
-});
-
-app.post("/api/provincias", (req, res) => {
-  const nuevaProvincia = new Provincia(req.body.nombre, []);
-  provincias.push(nuevaProvincia);
-  res.status(201).send({ message: "Provincia creada", data: nuevaProvincia });
-});
-
-app.put("/api/provincias/:id", (req, res) => {
-  const provinciaIdx = provincias.findIndex((p) => p.id === req.params.id);
-  if (provinciaIdx === -1) {
-    res.status(404).send({ message: "Provincia no encontrada" });
-  }
-
-  provincias[provinciaIdx] = {
-    ...provincias[provinciaIdx],
-    nombre: req.body.nombre,
-  };
-  res
-    .status(200)
-    .send({ message: "Provincia actualizada", data: provincias[provinciaIdx] });
-});
-
-app.delete("/api/provincias/:id", (req, res) => {
-  const provinciaIdx = provincias.findIndex((p) => p.id === req.params.id);
-  if (provinciaIdx === -1) {
-    res.status(404).send({ message: "Provincia no encontrada" });
-  } else {
-    provincias.splice(provinciaIdx, 1);
-    res.status(200).send({ message: "Provincia eliminada" });
-  }
-});
+app.use("/api/provincias", provinciaRouter);
 
 app.use((_, res) => {
-  res.status(404).send({ message: "Recurso no encontrado" });
+  return res.status(404).send({ message: "Recurso no encontrado" });
 });
 
 await syncSchema()

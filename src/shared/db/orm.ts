@@ -1,11 +1,15 @@
-import { MikroORM } from "@mikro-orm/core"
+import { MikroORM } from "@mikro-orm/mysql"
+import { defineConfig } from "@mikro-orm/mysql"
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter"
 
-export const orm = await MikroORM.init({
+const ormConfig = defineConfig({
   entities: ["dist/**/*.entity.js"],
   entitiesTs: ["src/**/*.entity.ts"],
   dbName: "tienda_virtual",
-  clientUrl: "mysql://root:root@localhost:3306/tienda_virtual",
+  user: "root",
+  password: "Hola2025",
+  host: "localhost",
+  port: 3306,
   highlighter: new SqlHighlighter(),
   debug: true,
   schemaGenerator: { 
@@ -13,7 +17,9 @@ export const orm = await MikroORM.init({
     createForeignKeyConstraints: true,
     ignoreSchema:[],
   },
-})
+});
+
+export const orm = await MikroORM.init(ormConfig);
 
 export const syncSchema = async () => {
   const generator = orm.getSchemaGenerator()

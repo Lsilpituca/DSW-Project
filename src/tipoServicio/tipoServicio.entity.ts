@@ -1,9 +1,15 @@
-import crypto from 'crypto';
+import { Entity, Property, OneToMany, Collection, Cascade } from '@mikro-orm/core';
+import { BaseEntity } from '../shared/db/baseEntity.entity.js';
+import { Servicio } from './servicio.entity.js';
 
-export class TipoServicio {
-  constructor(
-    public id= crypto.randomUUID(), //Temporal, despues la vamos a crear en la BD
-    public nombre: string,
-    public descripcion: string
-  ) {}
+@Entity()
+export class TipoServicio extends BaseEntity {
+    
+  @Property({ nullable: false })
+  descripcion!: string
+  
+  @OneToMany(() => Servicio, servicio => servicio.tipoServicio, { cascade: [Cascade.ALL] })
+  servicios = new Collection<Servicio>(this);
 }
+
+  

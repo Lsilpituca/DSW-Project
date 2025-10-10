@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { Provincia } from "./provincia.entity.js";
+import { orm } from "../shared/db/orm.js";
 
-const repository = new ProvinciaRepository();
+const em = orm.em
 
 function sanitizeProvinciaInput(
   req: Request,
@@ -10,6 +11,7 @@ function sanitizeProvinciaInput(
 ) {
   req.body.sanitizedInput = {
     nombre: req.body.nombre,
+    ciudades: req.body.ciudades,
   };
 
   Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -21,52 +23,60 @@ function sanitizeProvinciaInput(
   next();
 }
 
-function findAll(req: Request, res: Response) {
-  res.json({ data: repository.findAll() });
-}
-
-function findOne(req: Request, res: Response) {
-  const id = req.params.id;
-  const provincia = repository.findOne({ id });
-  if (!provincia) {
-    res.status(404).send({ message: "Provincia no encontrada" });
+async function findAll(req: Request, res: Response) {
+  try {
+    const provincias = await em.find(Provincia, {}, { populate: ['ciudades'] });
+  res.status(200).json({ message: "Provincias obtenidas", data: provincias });
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener provincias", error });
   }
-  res.json(provincia);
 }
 
-function add(req: Request, res: Response) {
-  const input = req.body.sanitizedInput;
-  const provinciaInput = new Provincia(input.nombre, input.cuidades ?? [], input.id);
-  const nuevaProvincia = repository.add(provinciaInput);
-  return res
-    .status(201)
-    .send({ message: "Provincia creada", data: nuevaProvincia });
-}
+async function findOne(req: Request, res: Response) {
+  try {
+    const id = Number.parseInt(req.params.id)
+    const provincia = await em.findOneOrFail(Provincia, { id }, { populate: ['ciudades'] });
 
-function update(req: Request, res: Response) {
-  req.body.sanitizedInput.id = req.params.id;
-  const provincia = repository.update(req.params.id, req.body.sanitizedInput);
-
-  if (!provincia) {
-    res.status(404).send({ message: "Provincia no encontrada" });
+    res.status(200).json({ message: "Provincia obtenida", data: provincia });
+  } catch (error: any) {
+    res.status(500).json({ message: "Provincia no encontrada", error: error.message });
   }
-
-  return res
-    .status(200)
-    .send({ message: "Provincia actualizada", data: provincia });
 }
 
-function remove(req: Request, res: Response) {
-  const id = req.params.id;
-  const provincia = repository.delete({ id });
-
-  if (!provincia) {
-    res.status(404).send({ message: "Provincia no encontrada" });
+async function add(req: Request, res: Response) {
+  try {
+    const provincia = em.create(Provincia, req.body.sanitizedInput);
+    await em.flush();
+    res.status(201).json({ message: "Provincia creada", data: provincia });
+  } catch (error) {
+    res.status(500).json({ message: "Error al crear provincia", error });
   }
+}
 
-  return res.status(200).send({ message: "Provincia eliminada" });
+async function update(req: Request, res: Response) {
+  try {
+    const id = Number.parseInt(req.params.id)
+    const provinciaToUpdate = await em.findOneOrFail(Provincia, { id });
+    em.assign(provinciaToUpdate, req.body.sanitizedInput);
+    await em.flush();
+    res.status(200).json({ message: "Provincia actualizada", data: provinciaToUpdate });
+  } catch (error: any) {
+    res.status(500).json({ message: "Error al actualizar provincia", error: error.message });
+  }
+}
+
+async function remove(req: Request, res: Response) {
+  try {
+    const id = Number.parseInt(req.params.id)
+    const provinciaToRemove = await em.findOneOrFail(Provincia, { id });
+    await em.removeAndFlush(provinciaToRemove);
+    res.status(200).json({ message: "Provincia eliminada" });
+  } catch (error: any) {
+    res.status(500).json({ message: "Error al eliminar provincia", error: error.message });
+  }
 };
 
-export {sanitizeProvinciaInput, findAll, findOne, add, update, remove};
+export { sanitizeProvinciaInput, findAll, findOne, add, update, remove };
+    
 
   
