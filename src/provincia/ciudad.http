@@ -22,7 +22,7 @@ PUT http://localhost:3000/api/ciudades/{{id}}
 Content-Type: application/json
 
 {
-    "nombre": "Rosario",
+    "nombre": "San Lorenzo",
     "provincia": 1 
 }
 
@@ -32,7 +32,7 @@ POST http://localhost:3000/api/ciudades
 Content-Type: application/json
 
 {
-    "nombre": "Rosario",
+    "nombre": "San Lorenzo",
     "provincia": 1
 }
 

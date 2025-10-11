@@ -52,7 +52,7 @@ async function remove(req: Request, res: Response) {
     const id = Number.parseInt(req.params.id)
     const ciudad = await em.getReference( Ciudad, id );
     await em.removeAndFlush(ciudad);
-    res.status(200).json({ message: "Ciudad eliminada" });
+    res.status(200).json({ message: "Ciudad eliminada", data: ciudad });
   } catch (error: any) {
     res.status(500).json({ message: "Error al eliminar ciudad", error: error.message });
   }
