@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import express from "express";
 import { provinciaRouter } from "./provincia/provincia.routes.js";
+import { ciudadRouter } from "./provincia/ciudad.routes.js";
 import { tipoServicioRouter } from "./tipoServicio/tipoServicio.routes.js";
 import { RequestContext } from "@mikro-orm/core";
 import { orm, syncSchema } from "./shared/db/orm.js";
@@ -15,6 +16,8 @@ app.use((req, res, next) => {
 
 //CRUD tipo de servicio
 app.use("/api/tiposServicios", tipoServicioRouter);
+
+app.use("/api/ciudades", ciudadRouter);
 
 //CRUD provincia
 app.use("/api/provincias", provinciaRouter);
