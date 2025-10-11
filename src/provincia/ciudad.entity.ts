@@ -1,20 +1,12 @@
-import { 
-  Entity, 
-  Cascade,  
-  ManyToOne,  
-  Property, 
-  Collection, 
-} from '@mikro-orm/core';
-import { Provincia } from './provincia.entity.js';
+import { Entity, Property, ManyToOne, Ref } from '@mikro-orm/core';
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
+import { Provincia } from './provincia.entity.js';
 
 @Entity()
-export class Ciudad extends BaseEntity{
-  
-  @Property({ nullable: false, unique: true })
+export class Ciudad extends BaseEntity {
+  @Property({ nullable: false, type: 'string' })
   nombre!: string;
 
-  @ManyToOne(() => Provincia, { nullable: false } )
-  provincia = Provincia
-
+  @ManyToOne({ entity: () => Provincia, nullable: false })
+  provincia!: Ref<Provincia>;
 }
