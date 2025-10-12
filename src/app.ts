@@ -3,6 +3,7 @@ import express from "express";
 import { provinciaRouter } from "./provincia/provincia.routes.js";
 import { ciudadRouter } from "./provincia/ciudad.routes.js";
 import { tipoServicioRouter } from "./tipoServicio/tipoServicio.routes.js";
+import { servicioRouter } from "./tipoServicio/servicio.routes.js";
 import { RequestContext } from "@mikro-orm/core";
 import { orm, syncSchema } from "./shared/db/orm.js";
 
@@ -18,6 +19,8 @@ app.use((req, res, next) => {
 app.use("/api/tiposServicios", tipoServicioRouter);
 
 app.use("/api/ciudades", ciudadRouter);
+
+app.use("/api/servicios", servicioRouter);
 
 //CRUD provincia
 app.use("/api/provincias", provinciaRouter);
