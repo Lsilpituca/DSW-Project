@@ -5,7 +5,7 @@ import { Servicio } from './servicio.entity.js';
 @Entity()
 export class TipoServicio extends BaseEntity {
     
-  @Property({ type: "string" })
+  @Property({ type: "string", nullable: false })
   descripcion!: string;
   
   @OneToMany(() => Servicio, (servicio) => servicio.tipoServicio, 

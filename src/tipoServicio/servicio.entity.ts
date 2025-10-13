@@ -5,7 +5,7 @@ import { BaseEntity } from '../shared/db/baseEntity.entity.js';
 @Entity()
 export class Servicio extends BaseEntity{
   
-  @Property({ type: "string" })
+  @Property({ type: "string", nullable: false })
   descripcion!: string;
   
   @ManyToOne({ entity: () => TipoServicio, nullable: false })
